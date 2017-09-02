@@ -1,6 +1,8 @@
 'use strict';
 
 const Hapi = require('hapi');
+const WebSocket = require('ws');
+
 const server = new Hapi.Server();
 
 const whiteOrigins = ['*'];
@@ -34,4 +36,22 @@ server.route({
 server.start((err) => {
   if (err) throw err;
   console.log('Server running at: ' + server.info.uri);
+});
+
+const wss = new WebSocket.Server({port: 8001});
+
+wss.on('connection', (ws) => {
+  console.log('Connection opened.');
+
+  ws.on('message', (msg) => {
+    console.log(`received: ${msg}`);
+    wss.clients.forEach((client) => {
+      if (client.readyState !== WebSocket.OPEN) return;
+      client.send(msg);
+    });
+  });
+
+  ws.on('close', () => {
+    console.log('Connection closed.');
+  });
 });
