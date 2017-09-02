@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/kiss-kiss-meow/chitchat-api/issues"
   },
-  "homepage": "https://github.com/kiss-kiss-meow/chitchat-api#readme"
+  "homepage": "https://github.com/kiss-kiss-meow/chitchat-api#readme",
+  "dependencies": {
+    "hapi": "^16.5.2"
+  }
 }
