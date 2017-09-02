@@ -3,6 +3,8 @@
 const Hapi = require('hapi');
 const server = new Hapi.Server();
 
+const whiteOrigins = ['*'];
+
 server.connection({
   port: '8000'
 });
@@ -10,6 +12,11 @@ server.connection({
 server.route({
   method: 'GET',
   path: '/api/items',
+  config: {
+    cors: {
+      origin: whiteOrigins
+    }
+  },
   handler: (req, res) => {
     return res([{
       id: 1,
