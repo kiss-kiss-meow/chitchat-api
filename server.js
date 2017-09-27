@@ -1,57 +1,58 @@
-'use strict';
+const Hapi = require('hapi')
+const WebSocket = require('ws')
 
-const Hapi = require('hapi');
-const WebSocket = require('ws');
+const server = new Hapi.Server()
 
-const server = new Hapi.Server();
-
-const whiteOrigins = ['*'];
+const whiteOrigins = ['*']
 
 server.connection({
-  port: '8000'
-});
+  port: '8000',
+})
 
 server.route({
   method: 'GET',
   path: '/api/items',
   config: {
     cors: {
-      origin: whiteOrigins
-    }
+      origin: whiteOrigins,
+    },
   },
-  handler: (req, res) => {
-    return res([{
-      id: 1,
-      name: 'Item 1'
-    }, {
-      id: 2,
-      name: 'Item 2'
-    }, {
-      id: 3,
-      name: 'Item 3'
-    }]);
-  }
-});
+  handler: (req, res) =>
+    res([
+      {
+        id: 1,
+        name: 'Item 1',
+      },
+      {
+        id: 2,
+        name: 'Item 2',
+      },
+      {
+        id: 3,
+        name: 'Item 3',
+      },
+    ]),
+})
 
-server.start((err) => {
-  if (err) throw err;
-  console.log('Server running at: ' + server.info.uri);
-});
+server.start(err => {
+  if (err) throw err
+  console.log(`Server running at: ${server.info.uri}`)
+})
 
-const wss = new WebSocket.Server({port: 8001});
+const wss = new WebSocket.Server({ port: 8001 })
 
-wss.on('connection', (ws) => {
-  console.log('Connection opened.');
+wss.on('connection', ws => {
+  console.log('Connection opened.')
 
-  ws.on('message', (msg) => {
-    console.log(`received: ${msg}`);
-    wss.clients.forEach((client) => {
-      if (client.readyState !== WebSocket.OPEN) return;
-      client.send(msg);
-    });
-  });
+  ws.on('message', msg => {
+    // console.log(`received: ${msg}`)
+    wss.clients.forEach(client => {
+      if (client.readyState !== WebSocket.OPEN) return
+      client.send(msg)
+    })
+  })
 
   ws.on('close', () => {
-    console.log('Connection closed.');
-  });
-});
+    console.log('Connection closed.')
+  })
+})
