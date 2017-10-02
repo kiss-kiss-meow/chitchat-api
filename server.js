@@ -1,13 +1,14 @@
 const Hapi = require('hapi')
 const WebSocket = require('ws')
+const config = require('config')
 
+const { port } = config.get('server')
+const { port: wssPort } = config.get('wss')
 const server = new Hapi.Server()
 
 const whiteOrigins = ['*']
 
-server.connection({
-  port: '8000',
-})
+server.connection({ port })
 
 server.route({
   method: 'GET',
@@ -39,7 +40,7 @@ server.start(err => {
   console.log(`Server running at: ${server.info.uri}`)
 })
 
-const wss = new WebSocket.Server({ port: 8001 })
+const wss = new WebSocket.Server({ port: wssPort })
 
 wss.on('connection', ws => {
   console.log('Connection opened.')
