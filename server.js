@@ -1,39 +1,15 @@
 const Hapi = require('hapi')
 const WebSocket = require('ws')
 const config = require('config')
+const api = require('./api')
 
 const { port } = config.get('server')
 const { port: wssPort } = config.get('wss')
 const server = new Hapi.Server()
 
-const whiteOrigins = ['*']
-
 server.connection({ port })
 
-server.route({
-  method: 'GET',
-  path: '/api/items',
-  config: {
-    cors: {
-      origin: whiteOrigins,
-    },
-  },
-  handler: (req, res) =>
-    res([
-      {
-        id: 1,
-        name: 'Item 1',
-      },
-      {
-        id: 2,
-        name: 'Item 2',
-      },
-      {
-        id: 3,
-        name: 'Item 3',
-      },
-    ]),
-})
+api.init(server)
 
 server.start(err => {
   if (err) throw err
