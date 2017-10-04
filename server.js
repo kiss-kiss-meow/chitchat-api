@@ -1,3 +1,4 @@
+require('dotenv').config()
 const Hapi = require('hapi')
 const WebSocket = require('ws')
 const config = require('config')
