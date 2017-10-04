@@ -21,6 +21,7 @@
   "homepage": "https://github.com/kiss-kiss-meow/chitchat-api#readme",
   "dependencies": {
     "config": "^1.26.2",
+    "dotenv": "^4.0.0",
     "hapi": "^16.5.2",
     "ws": "^3.1.0"
   },
