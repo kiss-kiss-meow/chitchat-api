@@ -12,7 +12,10 @@
     "type": "git",
     "url": "git+https://github.com/kiss-kiss-meow/chitchat-api.git"
   },
-  "keywords": ["chat", "api"],
+  "keywords": [
+    "chat",
+    "api"
+  ],
   "author": "",
   "license": "MIT",
   "bugs": {
@@ -23,6 +26,7 @@
     "config": "^1.26.2",
     "dotenv": "^4.0.0",
     "hapi": "^16.5.2",
+    "hapi-auth-jwt2": "^7.3.0",
     "ws": "^3.1.0"
   },
   "devDependencies": {
