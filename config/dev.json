@@ -4,5 +4,9 @@
   },
   "wss": {
     "port": 8001
+  },
+  "jwt": {
+    "algorithm": "HS256",
+    "tokenType": "jwt"
   }
 }
