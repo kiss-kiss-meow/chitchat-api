@@ -37,7 +37,7 @@ const init = ({ server }) =>
         algorithms: ['HS256'],
       },
       errorFunc: error => {
-        console.log(error)
+        server.log(error)
       },
     })
 

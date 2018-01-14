@@ -21,9 +21,9 @@ Promise.all([aop.init({ server })])
   .then(() => {
     server.start(err => {
       if (err) throw err
-      console.log(`Server running at: ${server.info.uri}`)
+      server.log(`Server running at: ${server.info.uri}`)
     })
   })
   .catch(err => {
-    console.log(err)
+    server.log(err)
   })
