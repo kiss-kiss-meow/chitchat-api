@@ -1,0 +1,8 @@
+--
+-- User TABLE
+--
+CREATE TABLE IF NOT EXISTS "user" (
+  id BIGINT PRIMARY KEY,
+  email VARCHAR(255) UNIQUE NOT NULL,
+  passwordHash VARCHAR(255) NOT NULL
+);
