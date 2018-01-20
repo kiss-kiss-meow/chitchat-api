@@ -1,0 +1,21 @@
+{
+  "defaultEnv": {
+    "ENV": "NODE_ENV"
+  },
+  "sql-file": true,
+  "dev": {
+    "driver": "pg",
+    "host": {
+      "ENV": "DB_HOST"
+    },
+    "database": {
+      "ENV": "DB_DATABASE"
+    },
+    "user": {
+      "ENV": "DB_USERNAME"
+    },
+    "password": {
+      "ENV": "DB_PASSWORD"
+    }
+  }
+}

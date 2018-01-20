@@ -4,6 +4,9 @@
   "description": "Chat application: API",
   "main": "index.js",
   "scripts": {
+    "db-create-migration": "NODE_ENV=dev node node_modules/db-migrate/bin/db-migrate create",
+    "db-migrate": "node node_modules/db-migrate/bin/db-migrate up",
+    "db-rollback": "node node_modules/db-migrate/bin/db-migrate down",
     "start": "node server.js",
     "start-dev": "NODE_ENV=dev node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -37,6 +40,8 @@
     "ws": "^3.1.0"
   },
   "devDependencies": {
+    "db-migrate": "^0.10.2",
+    "db-migrate-pg": "^0.2.5",
     "eslint": "^4.7.2",
     "eslint-config-airbnb-base": "^12.0.0",
     "eslint-plugin-import": "^2.7.0"
