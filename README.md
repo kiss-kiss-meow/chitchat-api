@@ -24,7 +24,7 @@ Chat application: API
   - `db-migrate` expects the following environment variables to be defined:
     - `DB_HOST`
     - `DB_DATABASE`
-    - `DB_USERNAME`
+    - `DB_USER`
     - `DB_PASSWORD`
 
 4. `Create`, `Up` & `Down` DB migrations:
