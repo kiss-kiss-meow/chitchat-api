@@ -18,6 +18,22 @@ const init = server => {
       auth: false,
     },
   })
+
+  server.route({
+    method: 'POST',
+    path: '/api/auth/signup',
+    handler: (request, reply) => {
+      const { payload } = request || {}
+      const { email, password } = payload
+      return authController
+        .signup(email, password)
+        .then(reply)
+        .catch(reply)
+    },
+    config: {
+      auth: false,
+    },
+  })
 }
 
 module.exports = {

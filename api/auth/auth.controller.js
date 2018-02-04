@@ -61,6 +61,15 @@ class AuthController {
       resolve(token)
     })
   }
+
+  signup(email, password) {
+    return new Promise((resolve, reject) => {
+      const token = AuthController.encryptJwt({
+        email: email
+      })
+      resolve(token)
+    })
+  }
 }
 
 module.exports = AuthController
