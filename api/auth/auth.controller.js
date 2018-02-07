@@ -44,7 +44,9 @@ class AuthController {
     return bcrypt.compareSync(plaintext, hash)
   }
 
-  signin(email, password) {
+  signin({ payload = {} }) {
+    const { email, password } = payload
+
     return new Promise((resolve, reject) => {
       const isPasswordCorrect = AuthController.verifyHash(
         password,
@@ -62,7 +64,9 @@ class AuthController {
     })
   }
 
-  signup(email, password) {
+  signup({ payload = {} }) {
+    const { email, password } = payload
+
     return new Promise((resolve, reject) => {
       const token = AuthController.encryptJwt({
         email: email
