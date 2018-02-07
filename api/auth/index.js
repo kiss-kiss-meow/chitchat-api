@@ -7,10 +7,8 @@ const init = server => {
     method: 'POST',
     path: '/api/auth/signin',
     handler: (request, reply) => {
-      const { payload } = request || {}
-      const { email, password } = payload
       return authController
-        .signin(email, password)
+        .signin(request)
         .then(reply)
         .catch(reply)
     },
@@ -23,10 +21,8 @@ const init = server => {
     method: 'POST',
     path: '/api/auth/signup',
     handler: (request, reply) => {
-      const { payload } = request || {}
-      const { email, password } = payload
       return authController
-        .signup(email, password)
+        .signup(request)
         .then(reply)
         .catch(reply)
     },
