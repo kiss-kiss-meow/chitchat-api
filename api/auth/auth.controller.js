@@ -1,11 +1,11 @@
 class AuthController {
 
-  constructor(authService) {
+  constructor({ authService }) {
     this.authService = authService
   }
 
-  static create(authService) {
-    return new AuthController(authService)
+  static create(service) {
+    return new AuthController(service)
   }
 
   signin({ payload = {} }) {
