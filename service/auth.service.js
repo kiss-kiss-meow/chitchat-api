@@ -7,7 +7,8 @@ const jwtSecretKey = process.env.JWT_SECRET
 
 class AuthService {
 
-  constructor() {
+  constructor({ userRepository }) {
+    this.userRepository = userRepository
     this.user = {
       email: 'username1@gmail.com',
       passwordHash:
@@ -15,8 +16,8 @@ class AuthService {
     }
   }
 
-  static create() {
-    return new AuthService()
+  static create(repository) {
+    return new AuthService(repository)
   }
 
   static encryptJwt(user) {
@@ -39,6 +40,10 @@ class AuthService {
         }
       )
     })
+  }
+
+  static encryptData(data) {
+    return bcrypt.hashSync(data, 10)
   }
 
   static verifyHash(plaintext, hash) {
@@ -64,12 +69,15 @@ class AuthService {
   }
 
   signup(email, password) {
-    return new Promise((resolve, reject) => {
-      const token = AuthService.encryptJwt({
-        email: email
-      })
-      resolve(token)
-    })
+    const passwordHash = AuthService.encryptData(password)
+    const user = {
+      email,
+      passwordHash,
+    }
+
+    return this.userRepository.saveUser(user)
+      .then(userCreated => AuthService.encryptJwt(userCreated)) // TODO: remove passwordHash info from token (in model layer)
+      .catch(err => { throw err })
   }
 }
 
