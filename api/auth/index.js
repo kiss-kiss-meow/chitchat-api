@@ -1,7 +1,7 @@
 const AuthController = require('./auth.controller.js')
 
 const init = (server, service) => {
-  const authController = AuthController.create(service.authService)
+  const authController = AuthController.create(service)
 
   server.route({
     method: 'POST',
