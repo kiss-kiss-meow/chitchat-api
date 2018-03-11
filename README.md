@@ -12,9 +12,10 @@ Chat application: API
 2. psql
 
   ```sql
-  create database chitchat;
-  create role chitchat with password 'secret';
-  grant all privileges on database chitchat to chitchat;
+  CREATE USER chitchat WITH PASSWORD 'secret';
+  CREATE DATABASE chitchat WITH OWNER chitchat;
+  GRANT ALL PRIVILEGES ON DATABASE chitchat to chitchat;
+  GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO chitchat;
   ```
 
 3. [db-migrate](https://github.com/db-migrate/node-db-migrate) module is used for dealing with database migrations
