@@ -1,6 +1,6 @@
 const AuthService = require('./auth.service.js')
 
-const init = (repository) => {
+const init = repository => {
   const initResult = {
     authService: AuthService.create(repository),
   }

@@ -38,7 +38,7 @@ Promise.resolve()
   })
   .catch(err => {
     server.log(err)
-  });
+  })
 
 const wss = new WebSocket.Server({ port: wssPort })
 ws.init(wss)
