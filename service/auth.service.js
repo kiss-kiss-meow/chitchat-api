@@ -6,13 +6,11 @@ const bcrypt = require('bcrypt')
 const jwtSecretKey = process.env.JWT_SECRET
 
 class AuthService {
-
   constructor({ userRepository }) {
     this.userRepository = userRepository
     this.user = {
       email: 'username1@gmail.com',
-      passwordHash:
-        '$2a$05$.Xin5d616wZK4GdUReveUekKKPGjCqXRUXHR9rVhvIhDRM6zgo7Wy', // Created with online bcrypt utility ('secret1')
+      passwordHash: '$2a$05$.Xin5d616wZK4GdUReveUekKKPGjCqXRUXHR9rVhvIhDRM6zgo7Wy', // Created with online bcrypt utility ('secret1')
     }
   }
 
@@ -52,10 +50,7 @@ class AuthService {
 
   signin(email, password) {
     return new Promise((resolve, reject) => {
-      const isPasswordCorrect = AuthService.verifyHash(
-        password,
-        this.user.passwordHash
-      )
+      const isPasswordCorrect = AuthService.verifyHash(password, this.user.passwordHash)
 
       if (this.user.email !== email || !isPasswordCorrect) {
         throw Boom.unauthorized('Wrong email or password!')
@@ -75,9 +70,12 @@ class AuthService {
       passwordHash,
     }
 
-    return this.userRepository.saveUser(user)
+    return this.userRepository
+      .saveUser(user)
       .then(userCreated => AuthService.encryptJwt(userCreated)) // TODO: remove passwordHash info from token (in model layer)
-      .catch(err => { throw err })
+      .catch(err => {
+        throw err
+      })
   }
 }
 

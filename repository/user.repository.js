@@ -1,5 +1,4 @@
 class UserRepository {
-
   constructor(db) {
     this.db = db
   }
@@ -14,9 +13,12 @@ class UserRepository {
       values: [user.email, user.passwordHash],
     }
 
-    return this.db.query(query)
+    return this.db
+      .query(query)
       .then(res => res.rows[0])
-      .catch(err => { throw err })
+      .catch(err => {
+        throw err
+      })
   }
 }
 
