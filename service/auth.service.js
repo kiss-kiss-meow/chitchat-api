@@ -8,10 +8,6 @@ const jwtSecretKey = process.env.JWT_SECRET
 class AuthService {
   constructor({ userRepository }) {
     this.userRepository = userRepository
-    this.user = {
-      email: 'username1@gmail.com',
-      passwordHash: '$2a$05$.Xin5d616wZK4GdUReveUekKKPGjCqXRUXHR9rVhvIhDRM6zgo7Wy', // Created with online bcrypt utility ('secret1')
-    }
   }
 
   static create(repository) {
@@ -48,19 +44,23 @@ class AuthService {
     return bcrypt.compareSync(plaintext, hash)
   }
 
+  static isUserValid(user, password) {
+    return user && AuthService.verifyHash(password, user.password_hash)
+  }
+
   signin(email, password) {
-    return new Promise((resolve, reject) => {
-      const isPasswordCorrect = AuthService.verifyHash(password, this.user.passwordHash)
+    return this.userRepository
+      .getUserByEmail(email)
+      .then(user => {
+        if (!AuthService.isUserValid(user, password)) throw Boom.unauthorized('Incorrect email or password!')
 
-      if (this.user.email !== email || !isPasswordCorrect) {
-        throw Boom.unauthorized('Wrong email or password!')
-      }
+        const tokenPayload = { email: user.email }
 
-      const token = AuthService.encryptJwt({
-        email: this.user.email,
+        return AuthService.encryptJwt(tokenPayload)
       })
-      resolve(token)
-    })
+      .catch(err => {
+        throw err
+      })
   }
 
   signup(email, password) {
