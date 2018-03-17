@@ -1,10 +1,11 @@
 class UserRepository {
-  constructor(db) {
+  constructor(db, { User }) {
     this.db = db
+    this.User = User
   }
 
-  static create(db) {
-    return new UserRepository(db)
+  static create(db, model) {
+    return new UserRepository(db, model)
   }
 
   getUserByEmail(email) {
@@ -15,10 +16,10 @@ class UserRepository {
 
     return this.db
       .query(query)
-      .then(res => res.rows[0])
+      .then(res => (res.rows.length ? this.User.createFromDB(res.rows[0]) : null))
       .catch(err => {
         throw err
-      });
+      })
   }
 
   saveUser(user) {
@@ -29,7 +30,7 @@ class UserRepository {
 
     return this.db
       .query(query)
-      .then(res => res.rows[0])
+      .then(res => this.User.createFromDB(res.rows[0]))
       .catch(err => {
         throw err
       })
