@@ -6,12 +6,13 @@ const bcrypt = require('bcrypt')
 const jwtSecretKey = process.env.JWT_SECRET
 
 class AuthService {
-  constructor({ userRepository }) {
+  constructor({ userRepository }, { User }) {
     this.userRepository = userRepository
+    this.User = User
   }
 
-  static create(repository) {
-    return new AuthService(repository)
+  static create(repository, model) {
+    return new AuthService(repository, model)
   }
 
   static encryptJwt(user) {
@@ -45,7 +46,7 @@ class AuthService {
   }
 
   static isUserValid(user, password) {
-    return user && AuthService.verifyHash(password, user.password_hash)
+    return user && AuthService.verifyHash(password, user.passwordHash)
   }
 
   signin(email, password) {
@@ -65,10 +66,7 @@ class AuthService {
 
   signup(email, password) {
     const passwordHash = AuthService.encryptData(password)
-    const user = {
-      email,
-      passwordHash,
-    }
+    const user = this.User.create({ email, passwordHash })
 
     return this.userRepository
       .saveUser(user)

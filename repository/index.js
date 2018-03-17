@@ -1,8 +1,8 @@
 const UserRepository = require('./user.repository.js')
 
-const init = (db) => {
+const init = (db, model) => {
   const initResult = {
-    userRepository: UserRepository.create(db)
+    userRepository: UserRepository.create(db, model),
   }
 
   return Promise.resolve(initResult)
