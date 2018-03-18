@@ -9,7 +9,9 @@ class User {
     return new User(options)
   }
 
-  static createFromDB(options = {}) {
+  static createFromDB(options = []) {
+    if (Array.isArray(options)) return options.map(o => User.createFromDB(o))
+
     options.passwordHash = options.password_hash
     return new User(options)
   }
