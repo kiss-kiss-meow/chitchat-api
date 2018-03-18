@@ -14,12 +14,10 @@ class UserRepository {
       values: [email],
     }
 
-    return this.db
-      .query(query)
-      .then(res => (res.rows.length ? this.User.createFromDB(res.rows[0]) : null))
-      .catch(err => {
-        throw err
-      })
+    return this.db.query(query).then(res => {
+      if (!res.rows.length) return null
+      return this.User.createFromDB(res.rows[0])
+    })
   }
 
   saveUser(user) {
@@ -28,12 +26,7 @@ class UserRepository {
       values: [user.email, user.passwordHash],
     }
 
-    return this.db
-      .query(query)
-      .then(res => this.User.createFromDB(res.rows[0]))
-      .catch(err => {
-        throw err
-      })
+    return this.db.query(query).then(res => this.User.createFromDB(res.rows[0]))
   }
 }
 
