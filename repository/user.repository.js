@@ -8,15 +8,19 @@ class UserRepository {
     return new UserRepository(db, model)
   }
 
+  queryDB(query) {
+    return this.db.query(query).then(res => res.rows)
+  }
+
   getUserByEmail(email) {
     const query = {
       text: 'SELECT * FROM "user" WHERE email=$1',
       values: [email],
     }
 
-    return this.db.query(query).then(res => {
-      if (!res.rows.length) return null
-      return this.User.createFromDB(res.rows[0])
+    return this.queryDB(query).then(rows => {
+      if (!rows.length) return null
+      return this.User.createFromDB(rows[0])
     })
   }
 
@@ -26,7 +30,7 @@ class UserRepository {
       values: [user.email, user.passwordHash],
     }
 
-    return this.db.query(query).then(res => this.User.createFromDB(res.rows[0]))
+    return this.queryDB(query).then(rows => this.User.createFromDB(rows))
   }
 }
 
