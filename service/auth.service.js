@@ -50,30 +50,21 @@ class AuthService {
   }
 
   signin(email, password) {
-    return this.userRepository
-      .getUserByEmail(email)
-      .then(user => {
-        if (!AuthService.isUserValid(user, password)) throw Boom.unauthorized('Incorrect email or password!')
+    return this.userRepository.getUserByEmail(email).then(user => {
+      if (!AuthService.isUserValid(user, password)) throw Boom.unauthorized('Incorrect email or password!')
 
-        const tokenPayload = { email: user.email }
+      const tokenPayload = { email: user.email }
 
-        return AuthService.encryptJwt(tokenPayload)
-      })
-      .catch(err => {
-        throw err
-      })
+      return AuthService.encryptJwt(tokenPayload)
+    })
   }
 
   signup(email, password) {
     const passwordHash = AuthService.encryptData(password)
     const user = this.User.create({ email, passwordHash })
 
-    return this.userRepository
-      .saveUser(user)
-      .then(userCreated => AuthService.encryptJwt(userCreated)) // TODO: remove passwordHash info from token (in model layer)
-      .catch(err => {
-        throw err
-      })
+    // TODO: remove passwordHash info from token (in model layer)
+    return this.userRepository.saveUser(user).then(userCreated => AuthService.encryptJwt(userCreated))
   }
 }
 
