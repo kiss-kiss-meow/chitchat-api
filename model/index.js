@@ -11,5 +11,3 @@ const init = () => {
 module.exports = {
   init,
 }
-
-// TODO: check lambda returns object directly
