@@ -15,13 +15,18 @@ class AuthService {
     return new AuthService(repository, model)
   }
 
-  static encryptJwt(user) {
+  static createTokenPayload(user) {
+    return {
+      id: user.id,
+      email: user.email,
+      tokenType: config.jwt.tokenType,
+    }
+  }
+
+  static encryptJwt(tokenPayload) {
     return new Promise((resolve, reject) => {
       jwt.sign(
-        {
-          email: user.email,
-          tokenType: config.jwt.tokenType,
-        },
+        tokenPayload,
         jwtSecretKey,
         {
           algorithm: config.jwt.algorithm,
@@ -53,9 +58,7 @@ class AuthService {
     return this.userRepository.getUserByEmail(email).then(user => {
       if (!AuthService.isUserValid(user, password)) throw Boom.unauthorized('Incorrect email or password!')
 
-      const tokenPayload = { email: user.email }
-
-      return AuthService.encryptJwt(tokenPayload)
+      return AuthService.encryptJwt(AuthService.createTokenPayload(user))
     })
   }
 
@@ -64,7 +67,9 @@ class AuthService {
     const user = this.User.create({ email, passwordHash })
 
     // TODO: remove passwordHash info from token (in model layer)
-    return this.userRepository.saveUser(user).then(userCreated => AuthService.encryptJwt(userCreated))
+    return this.userRepository
+      .saveUser(user)
+      .then(userCreated => AuthService.encryptJwt(AuthService.createTokenPayload(userCreated)))
   }
 }
 
