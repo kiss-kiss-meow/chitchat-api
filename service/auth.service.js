@@ -66,10 +66,13 @@ class AuthService {
     const passwordHash = AuthService.encryptData(password)
     const user = this.User.create({ email, passwordHash })
 
-    // TODO: remove passwordHash info from token (in model layer)
-    return this.userRepository
-      .saveUser(user)
-      .then(userCreated => AuthService.encryptJwt(AuthService.createTokenPayload(userCreated)))
+    return this.userRepository.checkEmailExists(email).then(emailExists => {
+      if (emailExists) throw Boom.conflict('That email is taken. Please try another.')
+
+      return this.userRepository
+        .saveUser(user)
+        .then(userCreated => AuthService.encryptJwt(AuthService.createTokenPayload(userCreated)))
+    })
   }
 }
 

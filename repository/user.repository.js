@@ -24,6 +24,15 @@ class UserRepository {
     })
   }
 
+  checkEmailExists(email) {
+    const query = {
+      text: 'SELECT COUNT(1)::int FROM "user" WHERE email=$1',
+      values: [email],
+    }
+
+    return this.queryDB(query).then(rows => rows[0].count > 0)
+  }
+
   saveUser(user) {
     const query = {
       text: 'INSERT INTO "user" (email, password_hash) VALUES ($1, $2) RETURNING *',
