@@ -39,7 +39,7 @@ class UserRepository {
       values: [user.email, user.passwordHash],
     }
 
-    return this.queryDB(query).then(rows => this.User.createFromDB(rows))
+    return this.queryDB(query).then(rows => this.User.createFromDB(rows[0]))
   }
 }
 
