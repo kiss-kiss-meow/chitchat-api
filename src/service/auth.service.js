@@ -64,10 +64,11 @@ class AuthService {
 
   signup(email, password) {
     const passwordHash = AuthService.encryptData(password)
-    const user = this.User.create({ email, passwordHash })
 
     return this.userRepository.checkEmailExists(email).then(emailExists => {
       if (emailExists) throw Boom.conflict('That email is taken. Please try another.')
+
+      const user = this.User.create({ email, passwordHash })
 
       return this.userRepository
         .saveUser(user)
