@@ -9,7 +9,7 @@
     "db-rollback": "node node_modules/db-migrate/bin/db-migrate down",
     "start": "node server.js",
     "start-dev": "NODE_ENV=dev NODE_PATH=src nodemon src/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "NODE_PATH=src mocha"
   },
   "repository": {
     "type": "git",
@@ -43,6 +43,9 @@
     "eslint": "^4.7.2",
     "eslint-config-airbnb-base": "^12.0.0",
     "eslint-plugin-import": "^2.7.0",
-    "nodemon": "^1.17.2"
+    "mocha": "^5.0.5",
+    "nodemon": "^1.17.2",
+    "shelljs": "^0.8.1",
+    "should": "^13.2.1"
   }
 }
