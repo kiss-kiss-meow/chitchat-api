@@ -16,8 +16,7 @@ describe('User repository test', () => {
     transactionBegin(dbPool).then(client => {
       dbClient = client
       userRepository = UserRepository.create(dbClient, { User })
-    })
-  )
+    }))
 
   afterEach('Transaction rollback', () => transactionRollback(dbClient))
 
@@ -36,13 +35,12 @@ describe('User repository test', () => {
         ['email3@gmail.com', 3, 'email3@gmail.com', 'hash3'],
       ]
 
-      let tests = testSet.map(([emailParam, id, email, passwordHash]) =>
+      const tests = testSet.map(([emailParam, id, email, passwordHash]) =>
         userRepository.getUserByEmail(emailParam).then(user => {
           user.id.should.be.exactly(id)
           user.email.should.be.exactly(email)
           user.passwordHash.should.be.exactly(passwordHash)
-        })
-      )
+        }))
 
       return Promise.all(tests)
     })
@@ -51,22 +49,20 @@ describe('User repository test', () => {
   describe('UserRepository.checkEmailExists test', () => {
     it('should return true (users with given emails exist)', () => {
       const testSet = ['email1@gmail.com', 'email2@gmail.com', 'email3@gmail.com']
-      let tests = testSet.map(email =>
+      const tests = testSet.map(email =>
         userRepository.checkEmailExists(email).then(exists => {
           exists.should.be.true()
-        })
-      )
+        }))
 
       return Promise.all(tests)
     })
 
-    it("should return false (users with given emails don't exist", () => {
+    it('should return false (users with given emails don\'t exist', () => {
       const testSet = ['non-existing1@gmail.com', 'non-existing2@gmail.com', 'non-existing3@gmail.com']
-      let tests = testSet.map(email =>
+      const tests = testSet.map(email =>
         userRepository.checkEmailExists(email).then(exists => {
           exists.should.be.false()
-        })
-      )
+        }))
 
       return Promise.all(tests)
     })
@@ -89,7 +85,7 @@ describe('User repository test', () => {
       })
     })
 
-    it("should raise an exception (user's email should be unique)", () => {
+    it('should raise an exception (user\'s email should be unique)', () => {
       const existingUser = {
         email: 'email1@gmail.com',
         passwordHash: 'hash1',

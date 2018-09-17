@@ -14,7 +14,9 @@ const aop = require('aop')
 
 const { port } = config.get('server')
 const { port: wssPort } = config.get('wss')
-const { DB_HOST, DB_PORT, DB_DATABASE, DB_USER, DB_PASSWORD } = process.env
+const {
+  DB_HOST, DB_PORT, DB_DATABASE, DB_USER, DB_PASSWORD,
+} = process.env
 
 const dbPool = new Pool({
   host: DB_HOST,
