@@ -6,12 +6,10 @@ const init = (server, service) => {
   server.route({
     method: 'POST',
     path: '/api/auth/signin',
-    handler: (request, reply) => {
-      return authController
-        .signin(request)
-        .then(reply)
-        .catch(reply)
-    },
+    handler: (request, reply) => authController
+      .signin(request)
+      .then(reply)
+      .catch(reply),
     config: {
       auth: false,
     },
@@ -20,12 +18,10 @@ const init = (server, service) => {
   server.route({
     method: 'POST',
     path: '/api/auth/signup',
-    handler: (request, reply) => {
-      return authController
-        .signup(request)
-        .then(reply)
-        .catch(reply)
-    },
+    handler: (request, reply) => authController
+      .signup(request)
+      .then(reply)
+      .catch(reply),
     config: {
       auth: false,
     },

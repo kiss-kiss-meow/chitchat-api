@@ -12,8 +12,12 @@ class User {
   static createFromDB(options = []) {
     if (Array.isArray(options)) return options.map(o => User.createFromDB(o))
 
-    options.passwordHash = options.password_hash
-    return new User(options)
+    const userOptions = {
+      ...options,
+      passwordHash: options.password_hash,
+    }
+
+    return new User(userOptions)
   }
 }
 
