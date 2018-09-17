@@ -7,6 +7,7 @@
     "db-create-migration": "NODE_ENV=dev node node_modules/db-migrate/bin/db-migrate create",
     "db-migrate": "node node_modules/db-migrate/bin/db-migrate up",
     "db-rollback": "node node_modules/db-migrate/bin/db-migrate down",
+    "linter": "node node_modules/eslint/bin/eslint.js '**/*.js'",
     "start": "node server.js",
     "start-dev": "NODE_ENV=dev NODE_PATH=src nodemon src/server.js",
     "test": "NODE_PATH=src mocha"
