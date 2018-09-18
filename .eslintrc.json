@@ -1,7 +1,8 @@
 {
   "env": {
     "es6": true,
-    "node": true
+    "node": true,
+    "mocha": true
   },
   "extends": "airbnb-base",
   "plugins": ["import"],
@@ -10,5 +11,12 @@
     "comma-dangle": ["error", "always-multiline"],
     "semi": ["error", "never"],
     "arrow-parens": ["error", "as-needed"]
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": ["src"]
+      }
+    }
   }
 }
